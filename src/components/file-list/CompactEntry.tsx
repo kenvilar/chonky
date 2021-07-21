@@ -10,7 +10,6 @@ import { FileEntryName } from './FileEntryName';
 import { FileEntryState } from './GridEntryPreview';
 
 export const CompactEntry: React.FC<FileEntryProps> = React.memo(
-    // @ts-ignore
     ({ file, selected, focused, dndState }) => {
         const entryState: FileEntryState = useFileEntryState(file, selected, focused);
 
@@ -61,7 +60,7 @@ export const CompactEntry: React.FC<FileEntryProps> = React.memo(
     }
 );
 
-const useStyles = makeLocalChonkyStyles(theme => ({
+const useStyles = makeLocalChonkyStyles((theme) => ({
     listFileEntry: {
         fontSize: theme.listFileEntry.fontSize,
         alignItems: 'center',

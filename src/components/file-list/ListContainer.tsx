@@ -8,7 +8,7 @@ import React, { CSSProperties, useCallback, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { FixedSizeList } from 'react-window';
 
-import { selectFileViewConfig, selectors } from '../../redux/selectors';
+import { selectDisplayFileIds, selectFileViewConfig } from '../../redux/selectors';
 import { FileViewMode } from '../../types/file-view.types';
 import { useInstanceVariable } from '../../util/hooks-helpers';
 import { makeLocalChonkyStyles } from '../../util/styles';
@@ -19,15 +19,15 @@ export interface FileListListProps {
     height: number;
 }
 
-export const ListContainer: React.FC<FileListListProps> = React.memo(props => {
+export const ListContainer: React.FC<FileListListProps> = React.memo((props) => {
     const { width, height } = props;
 
     const viewConfig = useSelector(selectFileViewConfig);
+    const displayFileIds = useSelector(selectDisplayFileIds);
 
     const listRef = useRef<FixedSizeList>();
 
-    const displayFileIds = useSelector(selectors.getDisplayFileIds);
-    const displayFileIdsRef = useInstanceVariable(displayFileIds);
+    const displayFileIdsRef = useInstanceVariable(useSelector(selectDisplayFileIds));
     const getItemKey = useCallback(
         (index: number) => displayFileIdsRef.current[index] ?? `loading-file-${index}`,
         [displayFileIdsRef]
@@ -73,7 +73,7 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(props => {
     return listComponent;
 });
 
-const useStyles = makeLocalChonkyStyles(theme => ({
+const useStyles = makeLocalChonkyStyles((theme) => ({
     listContainer: {
         borderTop: `solid 1px ${theme.palette.divider}`,
     },

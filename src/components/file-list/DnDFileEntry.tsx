@@ -29,7 +29,7 @@ export const DnDFileEntry = React.memo(({ file, children }: DnDFileEntryProps) =
     );
 });
 
-export const useStyles = makeLocalChonkyStyles(() => ({
+export const useStyles = makeLocalChonkyStyles((theme) => ({
     fillParent: {
         height: '100%',
     },

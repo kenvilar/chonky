@@ -1,13 +1,22 @@
 import { reduxActions } from '../redux/reducers';
 import {
-    getFileData, getIsFileSelected, selectDisableSelection, selectors, selectParentFolder,
-    selectSelectionSize
+    getFileData,
+    getIsFileSelected,
+    selectDisableSelection,
+    selectLastClickIndex,
+    selectParentFolder,
+    selectSelectionSize,
 } from '../redux/selectors';
-import { reduxThunks } from '../redux/thunks';
 import { thunkRequestFileAction } from '../redux/thunks/dispatchers.thunks';
 import {
-    ChangeSelectionPayload, EndDragNDropPayload, KeyboardClickFilePayload, MouseClickFilePayload,
-    MoveFilesPayload, OpenFileContextMenuPayload, OpenFilesPayload, StartDragNDropPayload
+    ChangeSelectionPayload,
+    EndDragNDropPayload,
+    KeyboardClickFilePayload,
+    MouseClickFilePayload,
+    MoveFilesPayload,
+    OpenFileContextMenuPayload,
+    OpenFilesPayload,
+    StartDragNDropPayload,
 } from '../types/action-payloads.types';
 import { ChonkyIconName } from '../types/icons.types';
 import { FileHelper } from '../util/file-helper';
@@ -53,14 +62,11 @@ export const EssentialActions = {
                             })
                         );
                         reduxDispatch(
-                            reduxActions.setLastClickIndex({
-                                index: payload.fileDisplayIndex,
-                                fileId: payload.file.id,
-                            })
+                            reduxActions.setLastClickIndex(payload.fileDisplayIndex)
                         );
                     } else if (payload.shiftKey) {
                         // Range selection
-                        const lastClickIndex = selectors.getLastClickIndex(getReduxState());
+                        const lastClickIndex = selectLastClickIndex(getReduxState());
                         if (typeof lastClickIndex === 'number') {
                             // We have the index of the previous click
                             let rangeStart = lastClickIndex;
@@ -69,7 +75,9 @@ export const EssentialActions = {
                                 [rangeStart, rangeEnd] = [rangeEnd, rangeStart];
                             }
 
-                            reduxDispatch(reduxThunks.selectRange({ rangeStart, rangeEnd }));
+                            reduxDispatch(
+                                reduxActions.selectRange({ rangeStart, rangeEnd })
+                            );
                         } else {
                             // Since we can't do a range selection, do a
                             // multiple selection
@@ -80,10 +88,7 @@ export const EssentialActions = {
                                 })
                             );
                             reduxDispatch(
-                                reduxActions.setLastClickIndex({
-                                    index: payload.fileDisplayIndex,
-                                    fileId: payload.file.id,
-                                })
+                                reduxActions.setLastClickIndex(payload.fileDisplayIndex)
                             );
                         }
                     } else {
@@ -95,10 +100,7 @@ export const EssentialActions = {
                             })
                         );
                         reduxDispatch(
-                            reduxActions.setLastClickIndex({
-                                index: payload.fileDisplayIndex,
-                                fileId: payload.file.id,
-                            })
+                            reduxActions.setLastClickIndex(payload.fileDisplayIndex)
                         );
                     }
                 } else {
@@ -106,10 +108,7 @@ export const EssentialActions = {
                         reduxDispatch(reduxActions.clearSelection());
                     }
                     reduxDispatch(
-                        reduxActions.setLastClickIndex({
-                            index: payload.fileDisplayIndex,
-                            fileId: payload.file.id,
-                        })
+                        reduxActions.setLastClickIndex(payload.fileDisplayIndex)
                     );
                 }
             }
@@ -125,12 +124,7 @@ export const EssentialActions = {
             __payloadType: {} as KeyboardClickFilePayload,
         } as const,
         ({ payload, reduxDispatch, getReduxState }) => {
-            reduxDispatch(
-                reduxActions.setLastClickIndex({
-                    index: payload.fileDisplayIndex,
-                    fileId: payload.file.id,
-                })
-            );
+            reduxDispatch(reduxActions.setLastClickIndex(payload.fileDisplayIndex));
             if (payload.enterKey) {
                 // We only dispatch the Open Files action here when the selection is
                 // empty. Otherwise, `Enter` key presses are handled by the
@@ -191,7 +185,8 @@ export const EssentialActions = {
             }
 
             const { draggedFile, selectedFiles } = payload as EndDragNDropPayload;
-            const droppedFiles = selectedFiles.length > 0 ? selectedFiles : [draggedFile];
+            const droppedFiles =
+                selectedFiles.length > 0 ? selectedFiles : [draggedFile];
             reduxDispatch(
                 thunkRequestFileAction(ChonkyActions.MoveFiles, {
                     ...payload,

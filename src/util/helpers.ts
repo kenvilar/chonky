@@ -66,12 +66,12 @@ export const elementIsInsideButton = (buttonCandidate: HTMLElement | any): boole
 };
 
 export const getValueOrFallback = <T extends any>(
-    value: T | undefined,
+    value: T,
     fallback: T,
     desiredType?: 'boolean' | 'string' | 'number'
-): NonNullable<T> => {
+): T => {
     if (desiredType) {
-        return (typeof value === desiredType ? value : fallback) as NonNullable<T>;
+        return typeof value === desiredType ? value : fallback;
     }
-    return (value !== undefined ? value : fallback) as NonNullable<T>;
+    return value !== undefined ? value : fallback;
 };

@@ -9,7 +9,6 @@ import { ChonkyIconName } from '../types/icons.types';
 import { FileHelper } from '../util/file-helper';
 import { defineFileAction } from '../util/helpers';
 import { EssentialActions } from './essential';
-import { OptionIds } from './option-ids';
 
 export const DefaultActions = {
     /**
@@ -53,7 +52,7 @@ export const DefaultActions = {
         },
         selectionTransform: (({ fileIds, hiddenFileIds }) => {
             const newSelection = new Set<string>();
-            fileIds.map(fileId => {
+            fileIds.map((fileId) => {
                 // We don't need to check if file is selectable because Chonky does
                 // it own checks internally.
                 if (!hiddenFileIds.has(fileId)) newSelection.add(fileId);
@@ -132,7 +131,8 @@ export const DefaultActions = {
      */
     SortFilesByName: defineFileAction({
         id: 'sort_files_by_name',
-        sortKeySelector: (file: Nullable<FileData>) => (file ? file.name.toLowerCase() : undefined),
+        sortKeySelector: (file: Nullable<FileData>) =>
+            file ? file.name.toLowerCase() : undefined,
         button: {
             name: 'Sort by name',
             toolbar: true,
@@ -156,7 +156,8 @@ export const DefaultActions = {
      */
     SortFilesByDate: defineFileAction({
         id: 'sort_files_by_date',
-        sortKeySelector: (file: Nullable<FileData>) => (file ? file.modDate : undefined),
+        sortKeySelector: (file: Nullable<FileData>) =>
+            file ? file.modDate : undefined,
         button: {
             name: 'Sort by date',
             toolbar: true,
@@ -170,7 +171,7 @@ export const DefaultActions = {
         id: 'toggle_hidden_files',
         hotkeys: ['ctrl+h'],
         option: {
-            id: OptionIds.ShowHiddenFiles,
+            id: 'show_hidden_files',
             defaultValue: true,
         },
         button: {
@@ -186,7 +187,7 @@ export const DefaultActions = {
     ToggleShowFoldersFirst: defineFileAction({
         id: 'toggle_show_folders_first',
         option: {
-            id: OptionIds.ShowFoldersFirst,
+            id: 'show_folders_first',
             defaultValue: true,
         },
         button: {
@@ -214,7 +215,7 @@ export const DefaultActions = {
     ToggleDarkMode: defineFileAction({
         id: 'enable_dark_mode',
         option: {
-            id: OptionIds.DarkMode,
+            id: 'dark_mode',
             defaultValue: false,
         },
         button: {

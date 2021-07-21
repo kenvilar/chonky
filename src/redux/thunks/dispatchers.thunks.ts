@@ -6,28 +6,40 @@ import { ChonkyDispatch, ChonkyThunk } from '../../types/redux.types';
 import { Logger } from '../../util/logger';
 import { reduxActions } from '../reducers';
 import {
-    selectContextMenuTriggerFile, selectExternalFileActionHandler, selectFileActionMap,
-    selectInstanceId, selectSelectedFiles
+    selectContextMenuTriggerFile,
+    selectExternalFileActionHandler,
+    selectFileActionMap,
+    selectInstanceId,
+    selectSelectedFiles,
 } from '../selectors';
-import { thunkActivateSortAction, thunkApplySelectionTransform } from './file-actions.thunks';
+import {
+    thunkActivateSortAction,
+    thunkApplySelectionTransform,
+    thunkToggleOption,
+} from './file-actions.thunks';
 
 /**
  * Thunk that dispatches actions to the external (user-provided) action handler.
  */
-export const thunkDispatchFileAction = (data: FileActionData<FileAction>): ChonkyThunk => (_dispatch, getState) => {
+export const thunkDispatchFileAction = (
+    data: FileActionData<FileAction>
+): ChonkyThunk => (dispatch, getState) => {
     Logger.debug(`FILE ACTION DISPATCH: [${data.id}]`, 'data:', data);
     const state = getState();
     const action = selectFileActionMap(state)[data.id];
     const externalFileActionHandler = selectExternalFileActionHandler(state);
     if (action) {
         if (externalFileActionHandler) {
-            Promise.resolve(externalFileActionHandler(data)).catch(error =>
-                Logger.error(`User-defined file action handler threw an error: ${error.message}`)
+            Promise.resolve(externalFileActionHandler(data)).catch((error) =>
+                Logger.error(
+                    `User-defined file action handler threw an error: ${error.message}`
+                )
             );
         }
     } else {
         Logger.warn(
-            `Internal components dispatched the "${data.id}" file action, but such ` + `action was not registered.`
+            `Internal components dispatched the "${data.id}" file action, but such ` +
+                `action was not registered.`
         );
     }
 };
@@ -42,7 +54,13 @@ export const thunkRequestFileAction = <Action extends FileAction>(
     action: Action,
     payload: Action['__payloadType']
 ): ChonkyThunk => (dispatch, getState) => {
-    Logger.debug(`FILE ACTION REQUEST: [${action.id}]`, 'action:', action, 'payload:', payload);
+    Logger.debug(
+        `FILE ACTION REQUEST: [${action.id}]`,
+        'action:',
+        action,
+        'payload:',
+        payload
+    );
     const state = getState();
     const instanceId = selectInstanceId(state);
 
@@ -57,7 +75,9 @@ export const thunkRequestFileAction = <Action extends FileAction>(
 
     // Determine files for the action if action requires selection
     const selectedFiles = selectSelectedFiles(state);
-    const selectedFilesForAction = action.fileFilter ? selectedFiles.filter(action.fileFilter) : selectedFiles;
+    const selectedFilesForAction = action.fileFilter
+        ? selectedFiles.filter(action.fileFilter)
+        : selectedFiles;
     if (action.requiresSelection && selectedFilesForAction.length === 0) {
         Logger.warn(
             `Internal components requested the "${action.id}" file ` +
@@ -85,7 +105,7 @@ export const thunkRequestFileAction = <Action extends FileAction>(
 
     // === Update option state if necessary
     const option = action.option;
-    if (option) dispatch(reduxActions.toggleOption(option.id));
+    if (option) dispatch(thunkToggleOption(option.id));
 
     // === Apply selection transform if necessary
     const selectionTransform = action.selectionTransform;
@@ -104,14 +124,17 @@ export const thunkRequestFileAction = <Action extends FileAction>(
                 getReduxState: getState,
             }) as MaybePromise<boolean | undefined>;
         } catch (error) {
-            Logger.error(`User-defined effect function for action ${action.id} threw an ` + `error: ${error.message}`);
+            Logger.error(
+                `User-defined effect function for action ${action.id} threw an ` +
+                    `error: ${error.message}`
+            );
         }
     }
 
     // Dispatch the action to user code. Deliberately call it after all other
     // operations are over.
     return Promise.resolve(maybeEffectPromise)
-        .then(effectResult => {
+        .then((effectResult) => {
             const data: FileActionData<Action> = {
                 id: action.id,
                 action,
@@ -120,7 +143,7 @@ export const thunkRequestFileAction = <Action extends FileAction>(
             };
             triggerDispatchAfterEffect(dispatch, data, effectResult);
         })
-        .catch(error => {
+        .catch((error) => {
             Logger.error(
                 `User-defined effect function for action ${action.id} returned a ` +
                     `promise that was rejected: ${error.message}`

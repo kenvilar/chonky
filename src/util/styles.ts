@@ -1,6 +1,7 @@
 import { Theme as MuiTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import classnames from 'classnames';
+import { Styles } from 'jss';
 import { createUseStyles } from 'react-jss';
 import { DeepPartial } from 'tsdef';
 
@@ -119,36 +120,31 @@ export const getStripeGradient = (colorOne: string, colorTwo: string) =>
     ')';
 
 export const makeLocalChonkyStyles = <C extends string = string>(
-    styles: (theme: ChonkyTheme & MuiTheme) => any
-    // @ts-ignore
-): any => createUseStyles<ChonkyTheme, C>(styles);
+    styles: (theme: ChonkyTheme & MuiTheme) => Styles<C>
+) => createUseStyles<ChonkyTheme, C>(styles);
 
 export const makeGlobalChonkyStyles = <C extends string = string>(
-    makeStyles: (theme: ChonkyTheme & MuiTheme) => any
+    makeStyles: (theme: ChonkyTheme & MuiTheme) => Styles<C>
 ) => {
     const selectorMapping = {};
     const makeGlobalStyles = (theme: ChonkyTheme) => {
         const localStyles = makeStyles(theme as any);
         const globalStyles = {};
         const localSelectors = Object.keys(localStyles);
-        localSelectors.map(localSelector => {
+        localSelectors.map((localSelector) => {
             const globalSelector = `chonky-${localSelector}`;
             const jssSelector = `@global .${globalSelector}`;
-            // @ts-ignore
             globalStyles[jssSelector] = localStyles[localSelector];
-            // @ts-ignore
             selectorMapping[localSelector] = globalSelector;
         });
         return globalStyles;
     };
 
-    // @ts-ignore
     const useStyles = createUseStyles<ChonkyTheme, C>(makeGlobalStyles as any);
-    return (...args: any[]): any => {
+    return (...args: any[]) => {
         const styles = useStyles(...args);
         const classes = {};
-        Object.keys(selectorMapping).map(localSelector => {
-            // @ts-ignore
+        Object.keys(selectorMapping).map((localSelector) => {
             classes[localSelector] = selectorMapping[localSelector];
         });
         return { ...classes, ...styles };

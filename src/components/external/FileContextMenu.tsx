@@ -4,12 +4,11 @@
  * @license MIT
  */
 
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Menu from '@material-ui/core/Menu';
 import React, { ReactElement, useEffect, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Menu from '@material-ui/core/Menu';
 
 import { reduxActions } from '../../redux/reducers';
 import { selectContextMenuConfig, selectContextMenuItems } from '../../redux/selectors';
@@ -56,7 +55,7 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
                     />
                 );
             } else {
-                item.fileActionIds.map(id =>
+                item.fileActionIds.map((id) =>
                     components.push(
                         <SmartToolbarDropdownButton
                             key={`context-menu-item-${item.name}-${id}`}
@@ -71,13 +70,17 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
     }, [contextMenuItems, hideContextMenu]);
 
     const anchorPosition = useMemo(
-        () => (contextMenuConfig ? { top: contextMenuConfig.mouseY, left: contextMenuConfig.mouseX } : undefined),
+        () =>
+            contextMenuConfig
+                ? { top: contextMenuConfig.mouseY, left: contextMenuConfig.mouseX }
+                : undefined,
         [contextMenuConfig]
     );
 
     const classes = useStyles();
     return (
         <Menu
+            keepMounted
             elevation={2}
             disablePortal
             onClose={hideContextMenu}
@@ -95,7 +98,7 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
     );
 });
 
-const useStyles = makeGlobalChonkyStyles(() => ({
+const useStyles = makeGlobalChonkyStyles((theme) => ({
     contextMenuList: {
         paddingBottom: important(0),
         paddingTop: important(0),

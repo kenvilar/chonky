@@ -85,12 +85,14 @@ export const useFileDrag = (file: Nullable<FileData>) => {
         }),
         []
     );
-    const collect = useCallback(monitor => ({ isDragging: monitor.isDragging() }), []);
+    const collect = useCallback(
+        (monitor) => ({ isDragging: monitor.isDragging() }),
+        []
+    );
     const [{ isDragging: dndIsDragging }, drag, preview] = useDragIfAvailable({
         item,
         canDrag,
         begin: onDragStart,
-        // @ts-ignore
         end: onDragEnd,
         collect,
     });
@@ -117,7 +119,7 @@ export const useFileDrop = ({
 }: UseFileDropParams) => {
     const folderChainRef = useInstanceVariable(useSelector(selectFolderChain));
     const onDrop = useCallback(
-        (_item: ChonkyDndFileEntryItem, monitor) => {
+        (item: ChonkyDndFileEntryItem, monitor) => {
             if (!monitor.canDrop()) return;
             const customDropResult: ExcludeKeys<ChonkyDndDropResult, 'dropEffect'> = {
                 dropTarget: file,
@@ -142,7 +144,7 @@ export const useFileDrop = ({
             // folder that we are currently in.
             const prohibitedFileIds = new Set<string>();
             prohibitedFileIds.add(file.id);
-            folderChainRef.current.map(folder => {
+            folderChainRef.current.map((folder) => {
                 if (folder) prohibitedFileIds.add(folder.id);
             });
             const movedFiles: FileData[] = [draggedFile, ...selectedFiles];
@@ -157,7 +159,7 @@ export const useFileDrop = ({
         [forceDisableDrop, file, includeChildrenDrops, folderChainRef]
     );
     const collect = useCallback(
-        monitor => ({
+        (monitor) => ({
             isOver: monitor.isOver(),
             isOverCurrent: monitor.isOver({ shallow: true }),
             canDrop: monitor.canDrop(),

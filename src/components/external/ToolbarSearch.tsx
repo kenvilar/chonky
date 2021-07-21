@@ -4,15 +4,15 @@
  * @license MIT
  */
 
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
-
 import { reduxActions } from '../../redux/reducers';
 import { selectSearchString } from '../../redux/selectors';
+import { thunkUpdateSearchString } from '../../redux/thunks/files.thunks';
 import { ChonkyIconName } from '../../types/icons.types';
 import { useDebounce } from '../../util/hooks-helpers';
 import { getI18nId, I18nNamespace } from '../../util/i18n';
@@ -53,7 +53,7 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
 
     useEffect(() => {
         setShowLoadingIndicator(false);
-        dispatch(reduxActions.setSearchString(debouncedLocalSearchString));
+        dispatch(thunkUpdateSearchString(debouncedLocalSearchString));
     }, [debouncedLocalSearchString, dispatch]);
 
     const handleChange = useCallback((event: React.FormEvent<HTMLInputElement>) => {
@@ -68,7 +68,7 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
             //       @see https://stackoverflow.com/a/37461974
             if (event.key === 'Escape') {
                 setLocalSearchString('');
-                dispatch(reduxActions.setSearchString(''));
+                dispatch(thunkUpdateSearchString(''));
                 if (searchInputRef.current) searchInputRef.current.blur();
             }
         },
@@ -89,7 +89,11 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
                 startAdornment: (
                     <InputAdornment className={classes.searchIcon} position="start">
                         <ChonkyIcon
-                            icon={showLoadingIndicator ? ChonkyIconName.loading : ChonkyIconName.search}
+                            icon={
+                                showLoadingIndicator
+                                    ? ChonkyIconName.loading
+                                    : ChonkyIconName.search
+                            }
                             spin={showLoadingIndicator}
                         />
                     </InputAdornment>
@@ -101,7 +105,7 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
     );
 });
 
-const useStyles = makeGlobalChonkyStyles(theme => ({
+const useStyles = makeGlobalChonkyStyles((theme) => ({
     searchFieldContainer: {
         height: theme.toolbar.size,
         width: 150,
