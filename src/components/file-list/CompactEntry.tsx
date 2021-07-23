@@ -32,7 +32,7 @@ export const CompactEntry: React.FC<FileEntryProps> = React.memo(
                 <div className={classes.listFileEntryDescription}>
                     <div
                         className={classes.listFileEntryName}
-                        title={file ? file.name : undefined}
+                        // 'kv-custom-chonky' title={file ? file.name : undefined}
                     >
                         <FileEntryName file={file} />
                     </div>
