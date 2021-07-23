@@ -23,7 +23,9 @@ export const FileEntryName: React.FC<FileEntryNameProps> = React.memo(
 
         const classes = useStyles();
         return (
-            <span className={className} title={file ? file.name : undefined}>
+            <span
+                className={className} // 'kv-custom-chonky' className={className} title={file ? file.name : undefined}
+            >
                 {modifierIconComponents.length > 0 && (
                     <span className={classes.modifierIcons}>
                         {modifierIconComponents}
