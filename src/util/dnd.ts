@@ -215,7 +215,7 @@ export const useDndHoverOpen = (file: Nullable<FileData>, dndState: DndEntryStat
                         })
                     ),
                 // TODO: Make this timeout configurable
-                750 // 'kv-custom-chonky' 1500
+                500 // 'kv-custom-chonky' 1500
             );
         }
         return () => {
