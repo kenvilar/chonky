@@ -57,6 +57,7 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
     }, [debouncedLocalSearchString, dispatch]);
 
     const handleChange = useCallback((event: React.FormEvent<HTMLInputElement>) => {
+        event.currentTarget.value = event.currentTarget.value.trim();
         setShowLoadingIndicator(true);
         setLocalSearchString(event.currentTarget.value.trim());
     }, []);
@@ -80,7 +81,7 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
             className={classes.searchFieldContainer}
             size="small"
             variant="outlined"
-            value={localSearchString}
+            value={localSearchString.trim()}
             placeholder={searchPlaceholderString}
             onChange={handleChange as any}
             onBlur={(e: any) => {

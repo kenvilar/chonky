@@ -148,7 +148,7 @@ export const thunkUpdateSearchString = (searchString: string): ChonkyThunk => (
 ) => {
     const currentSearchString = selectSearchString(getState());
     if (currentSearchString === searchString) return;
-    dispatch(reduxActions.setSearchString(searchString));
+    dispatch(reduxActions.setSearchString(searchString.trim()));
     // TODO: Add thunk for setting search mode once global search is supported
     dispatch(thunkUpdateHiddenFiles());
     dispatch(thunkUpdateDisplayFiles());
