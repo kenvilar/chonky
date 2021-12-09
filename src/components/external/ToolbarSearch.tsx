@@ -40,6 +40,10 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
     const [debouncedLocalSearchString] = useDebounce(localSearchString, 2000);
     const [showLoadingIndicator, setShowLoadingIndicator] = useState(false);
 
+    const trimValue = (value: any) => {
+        return value.trim().replace(/^[.\s]+|[.\s]+$/g, '');
+    };
+
     useEffect(() => {
         dispatch(
             reduxActions.setFocusSearchInput(() => {
@@ -57,12 +61,14 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
     }, [debouncedLocalSearchString, dispatch]);
 
     const handleChange = useCallback((event: React.FormEvent<HTMLInputElement>) => {
-        event.currentTarget.value = event.currentTarget.value.trim();
+        event.currentTarget.value = trimValue(event.currentTarget.value);
         setShowLoadingIndicator(true);
-        setLocalSearchString(event.currentTarget.value.trim());
+        setLocalSearchString(trimValue(event.currentTarget.value));
     }, []);
     const handleKeyUp = useCallback(
         (event: React.KeyboardEvent<HTMLInputElement>) => {
+            // @ts-ignore
+            event.target.value = trimValue(event.target.value);
             // Remove focus from the search input field when user presses escape.
             // Note: We use KeyUp instead of KeyPress because some browser plugins can
             //       intercept KeyPress events with Escape key.
@@ -81,11 +87,11 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
             className={classes.searchFieldContainer}
             size="small"
             variant="outlined"
-            value={localSearchString.trim()}
+            value={trimValue(localSearchString)}
             placeholder={searchPlaceholderString}
             onChange={handleChange as any}
             onBlur={(e: any) => {
-                e.target.value = e.target.value.trim();
+                e.target.value = trimValue(e.target.value);
             }}
             inputRef={searchInputRef}
             InputProps={{
