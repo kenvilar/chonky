@@ -14,10 +14,10 @@ export declare const selectParentFolder: (state: RootState) => Nullable<FileData
 export declare const selectRawFiles: (state: RootState) => any;
 export declare const selectFileMap: (state: RootState) => import("../types/file.types").FileMap;
 export declare const selectCleanFileIds: (state: RootState) => string[];
-export declare const selectFileData: (fileId: Nullable<string>) => (state: RootState) => FileData | null;
+export declare const selectFileData: (fileId: Nullable<string>) => (state: RootState) => Nullable<FileData>;
 export declare const selectHiddenFileIdMap: (state: RootState) => import("../types/file.types").FileIdTrueMap;
 export declare const selectHiddenFileCount: (state: RootState) => number;
-export declare const selectDisplayFileIds: (state: RootState) => Nullable<string>[];
+export declare const selectDisplayFileIds: (state: RootState) => (string | null)[];
 export declare const selectFocusSearchInput: (state: RootState) => Nullable<() => void>;
 export declare const selectSearchString: (state: RootState) => string;
 export declare const selectSelectionMap: (state: RootState) => import("../types/file.types").FileIdTrueMap;
@@ -29,7 +29,7 @@ export declare const selectSelectedFilesForAction: (fileActionId: string) => (st
 export declare const selectSelectedFilesForActionCount: (fileActionId: string) => (state: RootState) => number | undefined;
 export declare const selectDisableSelection: (state: RootState) => boolean;
 export declare const selectFileViewConfig: (state: RootState) => import("../types/file-view.types").FileViewConfig;
-export declare const selectSortActionId: (state: RootState) => Nullable<string>;
+export declare const selectSortActionId: (state: RootState) => string | null;
 export declare const selectSortOrder: (state: RootState) => import("../types/sort.types").SortOrder;
 export declare const selectOptionMap: (state: RootState) => import("../types/options.types").OptionMap;
 export declare const selectOptionValue: (optionId: string) => (state: RootState) => any;
@@ -37,11 +37,11 @@ export declare const selectThumbnailGenerator: (state: RootState) => Nullable<im
 export declare const selectDoubleClickDelay: (state: RootState) => number;
 export declare const selectIsDnDDisabled: (state: RootState) => boolean;
 export declare const selectClearSelectionOnOutsideClick: (state: RootState) => boolean;
-export declare const selectLastClickIndex: (state: RootState) => Nullable<number>;
+export declare const selectLastClickIndex: (state: RootState) => number | null;
 export declare const selectContextMenuMounted: (state: RootState) => boolean;
 export declare const selectContextMenuConfig: (state: RootState) => Nullable<import("../types/context-menu.types").ContextMenuConfig>;
-export declare const selectContextMenuTriggerFile: (state: RootState) => FileData | null;
-export declare const getFileData: (state: RootState, fileId: Nullable<string>) => FileData | null;
+export declare const selectContextMenuTriggerFile: (state: RootState) => Nullable<FileData>;
+export declare const getFileData: (state: RootState, fileId: Nullable<string>) => Nullable<FileData>;
 export declare const getIsFileSelected: (state: RootState, file: FileData) => boolean;
 export declare const getSelectedFiles: (state: RootState, ...filters: Nilable<FileFilter>[]) => FileData[];
 export declare const getSelectedFilesForAction: (state: RootState, fileActionId: string) => FileData[] | undefined;

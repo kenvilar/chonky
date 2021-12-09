@@ -11,7 +11,7 @@ export declare const useDndIcon: (dndState: DndEntryState) => ChonkyIconName.dnd
 export declare const useModifierIconComponents: (file: Nullable<FileData>) => JSX.Element[];
 export declare const useFileNameComponent: (file: Nullable<FileData>) => JSX.Element;
 export declare const useThumbnailUrl: (file: Nullable<FileData>) => {
-    thumbnailUrl: Nullable<string>;
+    thumbnailUrl: string | null;
     thumbnailLoading: boolean;
 };
 export declare const useFileClickHandlers: (file: Nullable<FileData>, displayIndex: number) => {

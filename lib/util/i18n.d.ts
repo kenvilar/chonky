@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { Nullable, Undefinable } from 'tsdef';
+import { Nullable } from 'tsdef';
 import { FileAction } from '../types/action.types';
 import { FileData } from '../types/file.types';
 import { ChonkyFormatters } from '../types/i18n.types';
@@ -16,11 +16,11 @@ export declare const getActionI18nId: (actionId: string, stringId: string) => st
 export declare const useLocalizedFileActionGroup: (groupName: string) => string;
 export declare const useLocalizedFileActionStrings: (action: Nullable<FileAction>) => {
     buttonName: string;
-    buttonTooltip: Undefinable<string>;
+    buttonTooltip: string | undefined;
 };
 export declare const useLocalizedFileEntryStrings: (file: Nullable<FileData>) => {
-    fileModDateString: Nullable<string>;
-    fileSizeString: Nullable<string>;
+    fileModDateString: string | null;
+    fileSizeString: string | null;
 };
 export declare const defaultFormatters: ChonkyFormatters;
 export declare const ChonkyFormattersContext: import("react").Context<ChonkyFormatters>;

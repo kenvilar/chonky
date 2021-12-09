@@ -23,4 +23,4 @@ export interface FileEntryPreviewProps {
 }
 export declare const GridEntryPreviewFolder: React.FC<FileEntryPreviewProps>;
 export declare const GridEntryPreviewFile: React.FC<FileEntryPreviewProps>;
-export declare const useCommonEntryStyles: (data?: unknown) => import("jss").Classes<"selectionIndicator" | "focusIndicator">;
+export declare const useCommonEntryStyles: (data?: unknown) => Record<"selectionIndicator" | "focusIndicator", string>;

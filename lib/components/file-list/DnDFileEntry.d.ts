@@ -7,4 +7,4 @@ export interface DnDFileEntryProps {
     children: (dndState: DndEntryState) => React.ReactElement;
 }
 export declare const DnDFileEntry: React.MemoExoticComponent<({ file, children }: DnDFileEntryProps) => JSX.Element>;
-export declare const useStyles: (data?: unknown) => import("jss").Classes<"fillParent">;
+export declare const useStyles: (data?: unknown) => Record<"fillParent", string>;

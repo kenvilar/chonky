@@ -1,5 +1,5 @@
 {
-    "extends": "../../react.tsconfig.json",
+    "extends": "./react.tsconfig.json",
     "compilerOptions": {
         "moduleResolution": "node"
     },
