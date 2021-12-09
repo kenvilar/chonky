@@ -58,7 +58,7 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
 
     const handleChange = useCallback((event: React.FormEvent<HTMLInputElement>) => {
         setShowLoadingIndicator(true);
-        setLocalSearchString(event.currentTarget.value);
+        setLocalSearchString(event.currentTarget.value.trim());
     }, []);
     const handleKeyUp = useCallback(
         (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -83,6 +83,9 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
             value={localSearchString}
             placeholder={searchPlaceholderString}
             onChange={handleChange as any}
+            onBlur={(e: any) => {
+                e.target.value = e.target.value.trim();
+            }}
             inputRef={searchInputRef}
             InputProps={{
                 onKeyUp: handleKeyUp,
