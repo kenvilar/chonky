@@ -14,7 +14,7 @@
     "lint-fix": "eslint --fix src/ test/",
     "format": "prettier --write src/ test/",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "build": "rm -rf ./lib; tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json",
     "prepublishOnly": "npm run test && npm run typecheck && npm run build"
   },
   "dependencies": {
