@@ -1,6 +1,6 @@
 {
   "name": "kv-custom-chonky",
-  "version": "2.2.14",
+  "version": "2.2.15",
   "description": "A File Browser component for React",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
