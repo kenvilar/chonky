@@ -173,7 +173,7 @@ const useStyles = makeGlobalChonkyStyles((theme) => ({
         letterSpacing: important(0),
         minWidth: important('auto'),
         lineHeight: important(`${theme.toolbar.size - 4}px`),
-        height: important(theme.toolbar.size - 4),
+        height: important(40),
         paddingBottom: important(0),
         paddingTop: important(0),
     },
