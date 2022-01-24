@@ -15,7 +15,8 @@
     "format": "prettier --write src/ test/",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "build": "tsc -p tsconfig.build.json",
-    "prepublishOnly": "npm run test && npm run typecheck && npm run build"
+    "prepublishOnly": "npm run test && npm run typecheck && npm run build",
+    "copy":  "xcopy.exe .\\lib\\ ..\\app\\node_modules\\kv-custom-chonky\\lib\\ /E/"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
