@@ -129,7 +129,6 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
             />
             <Button
                 className={className}
-                onClick={handleOnClick}
                 title={'Submit'}
                 disabled={searchDisabled || !handleOnClick}
             >
