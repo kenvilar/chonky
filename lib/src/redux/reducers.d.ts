@@ -1,0 +1,60 @@
+import { PayloadAction } from '@reduxjs/toolkit';
+import { Nilable, Nullable } from 'tsdef';
+import { GenericFileActionHandler } from '../types/action-handler.types';
+import { FileActionMenuItem } from '../types/action-menus.types';
+import { FileAction } from '../types/action.types';
+import { ContextMenuConfig } from '../types/context-menu.types';
+import { FileViewConfig } from '../types/file-view.types';
+import { FileArray, FileIdTrueMap } from '../types/file.types';
+import { OptionMap } from '../types/options.types';
+import { SortOrder } from '../types/sort.types';
+import { ThumbnailGenerator } from '../types/thumbnails.types';
+export declare const reduxActions: import("@reduxjs/toolkit").CaseReducerActions<{
+    setExternalFileActionHandler(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<Nilable<GenericFileActionHandler<FileAction>>>): void;
+    setRawFileActions(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<FileAction[] | any>): void;
+    setFileActionsErrorMessages(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<string[]>): void;
+    setFileActions(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<FileAction[]>): void;
+    updateFileActionMenuItems(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<[FileActionMenuItem[], FileActionMenuItem[]]>): void;
+    setRawFolderChain(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<FileArray | any>): void;
+    setFolderChainErrorMessages(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<string[]>): void;
+    setFolderChain(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<FileArray>): void;
+    setRawFiles(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<FileArray | any>): void;
+    setFilesErrorMessages(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<string[]>): void;
+    setFiles(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<FileArray>): void;
+    setSortedFileIds(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<Nullable<string>[]>): void;
+    setHiddenFileIds(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<FileIdTrueMap>): void;
+    setDisplayFileIds(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<Nullable<string>[]>): void;
+    setFocusSearchInput(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<Nullable<() => void>>): void;
+    setSearchString(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<string>): void;
+    selectAllFiles(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>): void;
+    selectRange(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<{
+        rangeStart: number;
+        rangeEnd: number;
+    }>): void;
+    selectFiles(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<{
+        fileIds: string[];
+        reset: boolean;
+    }>): void;
+    toggleSelection(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<{
+        fileId: string;
+        exclusive: boolean;
+    }>): void;
+    cleanUpSelection(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>): void;
+    clearSelection(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>): void;
+    setSelectionDisabled(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<boolean>): void;
+    setFileViewConfig(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<FileViewConfig>): void;
+    setSort(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<{
+        actionId: string;
+        order: SortOrder;
+    }>): void;
+    setOptionDefaults(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<OptionMap>): void;
+    toggleOption(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<string>): void;
+    setThumbnailGenerator(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<Nullable<ThumbnailGenerator>>): void;
+    setDoubleClickDelay(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<number>): void;
+    setDisableDragAndDrop(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<boolean>): void;
+    setClearSelectionOnOutsideClick(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<boolean>): void;
+    setLastClickIndex(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<Nullable<number>>): void;
+    setContextMenuMounted(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<boolean>): void;
+    showContextMenu(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>, action: PayloadAction<ContextMenuConfig>): void;
+    hideContextMenu(state: import("immer/dist/internal").WritableDraft<import("../types/redux.types").RootState>): void;
+}>, rootReducer: import("redux").Reducer<import("../types/redux.types").RootState, import("redux").AnyAction>;
