@@ -7,13 +7,15 @@
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-// import { selectSearchString } from '../../redux/selectors';
+import { reduxActions } from '../../redux/reducers';
+import { selectSearchString } from '../../redux/selectors';
 import { thunkUpdateSearchString } from '../../redux/thunks/files.thunks';
 import { ChonkyIconName } from '../../types/icons.types';
+// import { useDebounce } from '../../util/hooks-helpers';
 import { getI18nId, I18nNamespace } from '../../util/i18n';
 import { ChonkyIconContext } from '../../util/icon-helper';
 import { c, important, makeGlobalChonkyStyles } from '../../util/styles';
@@ -33,23 +35,23 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
     const searchInputRef = useRef<HTMLInputElement>();
 
     const dispatch = useDispatch();
-    // const reduxSearchString = useSelector(selectSearchString);
+    const reduxSearchString = useSelector(selectSearchString);
 
-    const [localSearchString, setLocalSearchString] = useState('');
+    const [localSearchString, setLocalSearchString] = useState(reduxSearchString);
     // const [debouncedLocalSearchString] = useDebounce(localSearchString, 2000);
-    const [searchDisabled, setSearchDisabled] = useState(true);
     const [showLoadingIndicator, setShowLoadingIndicator] = useState(false);
+    const [searchDisabled, setSearchDisabled] = useState(true);
 
-    // useEffect(() => {
-    //     dispatch(
-    //         reduxActions.setFocusSearchInput(() => {
-    //             if (searchInputRef.current) searchInputRef.current.focus();
-    //         })
-    //     );
-    //     return () => {
-    //         dispatch(reduxActions.setFocusSearchInput(null));
-    //     };
-    // }, [dispatch]);
+    useEffect(() => {
+        dispatch(
+            reduxActions.setFocusSearchInput(() => {
+                if (searchInputRef.current) searchInputRef.current.focus();
+            })
+        );
+        return () => {
+            dispatch(reduxActions.setFocusSearchInput(null));
+        };
+    }, [dispatch]);
 
     // useEffect(() => {
     //     setShowLoadingIndicator(false);
@@ -62,9 +64,9 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
             setSearchDisabled(false);
         }
         setLocalSearchString(event.currentTarget.value.trim());
-        // setTimeout(() => {
-        //     event.currentTarget.value = event.currentTarget?.value?.trim();
-        // }, 1000);
+        setTimeout(() => {
+            event.currentTarget.value = event.currentTarget?.value?.trim();
+        }, 1000);
     }, []);
     const handleKeyUp = useCallback(
         (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -75,11 +77,11 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
             if (event.key === 'Escape') {
                 // setSearchDisabled(true);
                 setLocalSearchString('');
-                // dispatch(thunkUpdateSearchString(''));
-                // if (searchInputRef.current) searchInputRef.current.blur();
+                dispatch(thunkUpdateSearchString(''));
+                if (searchInputRef.current) searchInputRef.current.blur();
             }
         },
-        []
+        [dispatch]
     );
     const handleOnClick = () => {
         setShowLoadingIndicator(true);
@@ -130,6 +132,7 @@ export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
             <Button
                 className={className}
                 title={'Submit'}
+                onClick={handleOnClick}
                 disabled={searchDisabled || !handleOnClick}
             >
                 <span>Submit</span>

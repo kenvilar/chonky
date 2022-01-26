@@ -38,7 +38,7 @@ var reducers_1 = require("../../redux/reducers");
 var selectors_1 = require("../../redux/selectors");
 var files_thunks_1 = require("../../redux/thunks/files.thunks");
 var icons_types_1 = require("../../types/icons.types");
-// import { useDebounce } from '../../util/hooks-helpers';
+var hooks_helpers_1 = require("../../util/hooks-helpers");
 var i18n_1 = require("../../util/i18n");
 var icon_helper_1 = require("../../util/icon-helper");
 var styles_1 = require("../../util/styles");
@@ -55,7 +55,7 @@ exports.ToolbarSearch = react_1.default.memo(function () {
     var dispatch = react_redux_1.useDispatch();
     var reduxSearchString = react_redux_1.useSelector(selectors_1.selectSearchString);
     var _b = react_1.useState(reduxSearchString), localSearchString = _b[0], setLocalSearchString = _b[1];
-    // const [debouncedLocalSearchString] = useDebounce(localSearchString, 2000);
+    var debouncedLocalSearchString = hooks_helpers_1.useDebounce(localSearchString, 2000)[0];
     var _c = react_1.useState(false), showLoadingIndicator = _c[0], setShowLoadingIndicator = _c[1];
     var _d = react_1.useState(true), searchDisabled = _d[0], setSearchDisabled = _d[1];
     react_1.useEffect(function () {
@@ -67,10 +67,10 @@ exports.ToolbarSearch = react_1.default.memo(function () {
             dispatch(reducers_1.reduxActions.setFocusSearchInput(null));
         };
     }, [dispatch]);
-    // useEffect(() => {
-    //     setShowLoadingIndicator(false);
-    //     dispatch(thunkUpdateSearchString(debouncedLocalSearchString));
-    // }, [debouncedLocalSearchString, dispatch]);
+    react_1.useEffect(function () {
+        setShowLoadingIndicator(false);
+        dispatch(files_thunks_1.thunkUpdateSearchString(debouncedLocalSearchString));
+    }, [debouncedLocalSearchString, dispatch]);
     var handleChange = react_1.useCallback(function (event) {
         // setShowLoadingIndicator(true);
         if (event.currentTarget.value.trim()) {
